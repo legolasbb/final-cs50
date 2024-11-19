@@ -24,9 +24,9 @@ class Class(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='classes')
     
 class User(AbstractUser):
-    type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES)
-    group = models.ForeignKey(Class, on_delete=models.CASCADE, related_name="class_students")
-    school = models.ForeignKey(School, on_delete=models.CASCADE, related_name="school_students")
+    type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES, null=True)
+    group = models.ForeignKey(Class, on_delete=models.CASCADE, null=True ,related_name="class_students")
+    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True ,related_name="school_students")
 
 class Lesson(models.Model):
     subject = models.CharField(max_length=300)
