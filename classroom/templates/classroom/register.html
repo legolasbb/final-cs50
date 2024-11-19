@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>Register</title>
+</head>
+<body>
+    {{message}}
+    <form action = "{% url 'register' %}" method = "post">
+        {% csrf_token %}
+        <input autofocus name="username" placeholder="username" type="text">
+        <select id="choice" name="type" size="2" multiple>
+            <option value="ST">Staff</option>
+            <option value="SU">Student</option>
+        </select>
+        <div id="class">
+            <input type="text" name="class" placeholder="class">            
+        </div>
+        <input type="text" name="school" placeholder="school">
+        <input type="password" name="password" placeholder="password">
+        <input type="password" name="confirmation" placeholder="Confirm password">
+        <input type="submit" value="register"> 
+    </form>
+</body>
+
+{% block script %}
+  <script src="{% static 'classroom/register.js' %}"></script>
+{% endblock %}
+
+</html>
