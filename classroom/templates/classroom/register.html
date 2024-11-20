@@ -9,6 +9,9 @@
     <form action = "{% url 'register' %}" method = "post">
         {% csrf_token %}
         <input autofocus name="username" placeholder="username" type="text">
+        <input name="name" placeholder="name" type="text">
+        <input name="surname" placeholder="surname" type="text">
+        <input name="email" placeholder="email" type="email">
         <select id="choice" name="type" size="2" multiple>
             <option value="ST">Staff</option>
             <option value="SU">Student</option>

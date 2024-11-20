@@ -27,6 +27,8 @@ class User(AbstractUser):
     type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES, null=True)
     group = models.ForeignKey(Class, on_delete=models.CASCADE, null=True ,related_name="class_students")
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True ,related_name="school_students")
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 class Lesson(models.Model):
     subject = models.CharField(max_length=300)
