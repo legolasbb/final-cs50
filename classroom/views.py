@@ -5,25 +5,31 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django import forms
+from datetime import *
 from .models import *
 
 
 # Create your views here.
+DAY_CHOICES = [
+    ("MON", "MONDAY"),
+    ("TUE", "TUESDAY"),
+    ("WED", "WEDNESDAY"),
+    ("THU", "THURSDAY"),
+    ("FRI", "FRIDAY"),
+]
+
+SUBJECT_CHOICES = [
+    ("MA", "Math"),
+    ("IT", "Information technology"),
+    ("EN", "English"),
+    ("BL","Biology"),
+    ("CH","Chemistry"),
+    ("PH","Physics"),
+    ("GE", "Geography"),
+    ("HI", "History"),
+]
 
 
-
-class LessonForm(forms.Form):
-    teachers = User.objects.filter(type="ST")
-    time_start = forms.TimeField(
-        label="Time of start",
-        widget=forms.TimeInput(format='%H:%M', attrs={'type': 'time'})
-    )
-    time_end = forms.TimeField(
-        label="Time of end",
-        widget=forms.TimeInput(format='%H:%M', attrs={'type': 'time'})
-    )
-    teacher = forms.ModelChoiceField(queryset=teachers, label="Teacher")
-    subject = forms.CharField(max_length=300)
 
 @login_required
 def index(request):
@@ -96,21 +102,76 @@ def register_view(request):
     else:
         return render(request, "classroom/register.html")
 
+#function to check for time confict
+def check_time(time_add_start, time_add_end, time_2_start, time_2_end):
+    if time_2_start < datetime.strptime(time_add_start, "%H:%M").time() and time_2_end < datetime.strptime(time_add_start, "%H:%M").time():
+        return True
+    elif datetime.strptime(time_add_end, "%H:%M").time() <=time_2_start:
+        return True
+    else: 
+        return False
+
 @login_required
 def plan_view(request):
+    user = request.user
     if request.method == "POST":
-        pass
+        #data needed for validity check
+        teacher_id = request.POST['teacher']
+        group_id = request.POST['class']
+        day = request.POST['day']
+        time_start = request.POST['start_time']
+        time_end = request.POST['end_time']
+        teacher = User.objects.get(pk=teacher_id)
+        group = Class.objects.get(pk=group_id)
+        #checks for confilct in plan
+        class_lessons = group.class_lessons.all().filter(day=day)
+        teacher_lessons = teacher.teacher_lessons.filter(day=day)
+        #confilct in class
+        for lesson in class_lessons:
+            if check_time(time_start, time_end, lesson.time_start, lesson.time_end)==False:
+                return render(request, "classroom/plan.html", {
+                    "message": "Time conflict"
+                })
+        
+        #conflict in lesson
+        for lesson in teacher_lessons:
+            if check_time(time_start, time_end, lesson.time_start, lesson.time_end)==False:
+                return render(request, "classroom/plan.html", {
+                    "message": "Time conflict"
+                })
+        
+        #check if time is valid
+        if time_start>time_end:
+            return render(request, "classroom/plan.html", {
+                "message": "Invalid time"
+            })
+        
+        
+        #rest of data
+        subject = request.POST['subject']
+        #create new lesson
+        lesson = Lesson.objects.create(subject=subject, day=day, time_start=time_start, time_end=time_end, teacher=teacher, group=group)
+        lesson.save()
+        return render(request, "classroom/plan.html", {
+            "message": "Lesson created"
+        })
     else:
-        user = request.user
-        print(user.type)
+        
+        #display form only if user    is staff
         if user.type == "SU":
             user_per = False
         else:
             user_per = True
-
+        
+        school = user.school
+        grups = school.classes.all()
+        teachers = User.objects.filter(type="ST", school=school)
         return render(request, "classroom/plan.html",{
+            "subjects": SUBJECT_CHOICES,
             "perrmision": user_per,
-            "form": LessonForm()
+            "teachers": teachers,
+            "days": DAY_CHOICES,
+            "classes": grups
         })
 
 
