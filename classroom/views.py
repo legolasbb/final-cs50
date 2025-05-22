@@ -33,8 +33,9 @@ SUBJECT_CHOICES = [
 
 @login_required
 def index(request):
-    return HttpResponse("Hello, world")
+    return render(request, "classroom/index.html")
 
+@login_required
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('login'))
@@ -102,7 +103,7 @@ def register_view(request):
     else:
         return render(request, "classroom/register.html")
 
-#function to check for time confict
+#check for time confict
 def check_time(time_add_start, time_add_end, time_2_start, time_2_end):
     if time_2_start < datetime.strptime(time_add_start, "%H:%M").time() and time_2_end < datetime.strptime(time_add_start, "%H:%M").time():
         return True
@@ -156,12 +157,16 @@ def plan_view(request):
             "message": "Lesson created"
         })
     else:
-        
-        #display form only if user    is staff
+        #display form only if user is staff and get all lessons
         if user.type == "SU":
+            #student
             user_per = False
+            group = user.group
+            lessons = group.class_lessons.all()
         else:
+            #teacher
             user_per = True
+            lessons = user.teacher_lessons.all()
         
         school = user.school
         grups = school.classes.all()
@@ -171,7 +176,34 @@ def plan_view(request):
             "perrmision": user_per,
             "teachers": teachers,
             "days": DAY_CHOICES,
-            "classes": grups
+            "classes": grups,
+            "lessons": lessons
         })
 
+@login_required
+def homework_teacher_view(request):
+    #add deadline validation 
+
+    user= request.user
+    if request.method == "POST":
+        subject = request.POST['subject']
+        content = request.POST['content']
+        deadline = request.POST['deadline']
+        group_id = request.POST['group']
+        group = Class.objects.get(pk=group_id)
+        homework = Homework.objects.create(subject=subject, content=content, deadline=deadline, group=group, teacher=user)
+        homework.save()
+        return render(request, "classroom/teacher_homework.html", {
+            "message": "Homework created"
+        })
+    else:
+        given_homeworks = user.given_homeworks.all()
+        school = user.school
+        grups = school.classes.all()
+        return render(request, "classroom/teacher_homework.html", {
+            "homeworks": given_homeworks,
+            "classes": grups,
+            "subjects": SUBJECT_CHOICES,
+        })
+        
 

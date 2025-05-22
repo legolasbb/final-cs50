@@ -3,6 +3,7 @@
 <head>
     {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'classroom/style.css'%}">
     <title>{%block title%}{%endblock%}</title>
 </head>
 <body>
@@ -15,7 +16,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'plan' %}">Plan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'te_homework'%}">Homeworks</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'logout'%}">Logout</a>

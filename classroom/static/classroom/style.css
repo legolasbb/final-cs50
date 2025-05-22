@@ -1,0 +1,26 @@
+
+
+.plan_div{
+    display: flex;
+    margin-top: 50px;;
+}
+.flex_child{
+    flex: 1;
+}
+
+
+.day{
+    font-size: 30px;
+}
+
+.lesson_div{
+    text-align: center;
+    background: rgba(195, 232, 213, 0.50);
+    border-radius: 15px;
+    max-width: 150px;
+    padding: 10px;
+}
+
+.time_lesson{
+    font-size: 10px;
+}

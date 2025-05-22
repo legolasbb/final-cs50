@@ -1,5 +1,7 @@
 {% extends "classroom/layout.html" %}
 
+{% load static %}
+
 {%block title%}
     Plan
 {%endblock%}
@@ -7,6 +9,70 @@
 {%block body%}
     {{message}}
     {% if perrmision == True %}
+    <button id="add_button">Add lesson</button>
+    <button id="plan_button">Plan</button>
+    {%endif%}
+    <div id="plan_view">
+        <div class="plan_div">
+            <div class="flex_child">
+                <div class="day">Monday</div>
+                {%for lesson in lessons%}
+                    {%if lesson.day == "MON"%}
+                    <div class="lesson_div">
+                        <div class="subject">{{lesson.get_subject_display}}</div>
+                        <div class="time_lesson">{{lesson.time_start}} - {{lesson.time_end}}</div> 
+                    </div>
+                    {%endif%}
+                {%endfor%}
+            </div>
+            <div class="flex_child">
+                <div class="day">Tuesday</div>
+                {%for lesson in lessons%}
+                    {%if lesson.day == "TUE"%}
+                    <div class="lesson_div">
+                        <div class="subject">{{lesson.get_subject_display}}</div>
+                        <div class="time_lesson">{{lesson.time_start}} - {{lesson.time_end}}</div> 
+                    </div>
+                    {%endif%}
+                {%endfor%}
+            </div>
+            <div class="flex_child">
+                <div class="day">Wensday</div>
+                {%for lesson in lessons%}
+                    {%if lesson.day == "WED"%}
+                    <div class="lesson_div">
+                        <div class="subject">{{lesson.get_subject_display}}</div>
+                        <div class="time_lesson">{{lesson.time_start}} - {{lesson.time_end}}</div> 
+                    </div>
+                    {%endif%}
+                {%endfor%}
+            </div>
+            <div class="flex_child">
+                <div class="day">Thursday</div>
+                {%for lesson in lessons%}
+                    {%if lesson.day == "THU"%}
+                    <div class="lesson_div">
+                        <div class="subject">{{lesson.get_subject_display}}</div>
+                        <div class="time_lesson">{{lesson.time_start}} - {{lesson.time_end}}</div> 
+                    </div>
+                    {%endif%}
+                {%endfor%}
+            </div>
+            <div class="flex_child">
+                <div class="day">Friday</div>
+                {%for lesson in lessons%}
+                    {%if lesson.day == "FRI"%}
+                    <div class="lesson_div">
+                        <div class="subject">{{lesson.get_subject_display}}</div>
+                        <div class="time_lesson">{{lesson.time_start}} - {{lesson.time_end}}</div> 
+                    </div>
+                    {%endif%}
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    {% if perrmision == True %}
+    <div id="add_view">
         <form action="" method="post">
             {%csrf_token%}
             <input type="time" name="start_time" placeholder="Start Time">
@@ -33,6 +99,11 @@
             </select>
             <input type="submit" value ="submit">
         </form>
-        
+    </div>
     {%endif%}
+    {% block script %}
+        <script src="{% static 'classroom/plan.js' %}"></script>
+    {% endblock %}
 {%endblock%}
+
+

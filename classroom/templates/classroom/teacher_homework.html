@@ -1,0 +1,41 @@
+{% extends "classroom/layout.html" %}
+
+{% load static %}
+
+{%block title%}
+    Homework
+{%endblock%}
+
+{%block body%}
+    {{message}}
+    <button id="homework_button">Homeworks</button>
+    <button id="add_button">Add Homework</button>
+
+    <div id="homework">
+        {%for homework in homeworks%}
+            {{homework.content}}
+        {%endfor%}
+    </div>
+    <div id="add">
+        <form action="" method="post">
+            {%csrf_token%}
+            <select name="subject">
+                {%for subject in subjects%}
+                    <option  value="{{subject.0}}">{{subject.1}}</option>
+                {%endfor%}
+            </select>
+            <textarea name="content" ></textarea>
+            <input type="date" name="deadline">
+            <select name="group">
+                {% for clas in classes %}
+                    <option value="{{clas.id}}">{{clas.name}}</option>
+                {%endfor%}
+            </select>
+            <input type="submit" value="submit">
+        </form>
+    </div>
+
+    {%block script%}
+        <script src="{% static 'classroom/homework.js' %}"></script>
+    {%endblock%}
+{%endblock%}

@@ -51,10 +51,11 @@ class Lesson(models.Model):
     group = models.ForeignKey(Class, on_delete=models.CASCADE, related_name="class_lessons")
 
 class Homework(models.Model):
-    subject = models.CharField(max_length=300)
+    subject = models.CharField(max_length=300, choices=SUBJECT_CHOICES)
     content = models.CharField(max_length=10000)
     deadline = models.DateField()
     group = models.ForeignKey(Class, on_delete=models.CASCADE, related_name="homeworks")
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="given_homeworks")
 
 class homework_submission(models.Model):
     homework = models.ForeignKey(Homework, on_delete=models.CASCADE, related_name="students_submissions")
