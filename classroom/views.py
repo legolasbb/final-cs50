@@ -181,29 +181,41 @@ def plan_view(request):
         })
 
 @login_required
-def homework_teacher_view(request):
+def homework_view(request):
     #add deadline validation 
-
     user= request.user
-    if request.method == "POST":
-        subject = request.POST['subject']
-        content = request.POST['content']
-        deadline = request.POST['deadline']
-        group_id = request.POST['group']
-        group = Class.objects.get(pk=group_id)
-        homework = Homework.objects.create(subject=subject, content=content, deadline=deadline, group=group, teacher=user)
-        homework.save()
-        return render(request, "classroom/teacher_homework.html", {
-            "message": "Homework created"
-        })
+
+    if user.type=="SU":
+        if request.method=="POST":
+            subject = request.POST['subject']
+        else:
+            group=user.group
+            homeworks = group.homeworks.all()
+            return render(request, "classroom/homework.html", {
+                "homeworks": homeworks,
+                "perrmision": False
+            })
     else:
-        given_homeworks = user.given_homeworks.all()
-        school = user.school
-        grups = school.classes.all()
-        return render(request, "classroom/teacher_homework.html", {
-            "homeworks": given_homeworks,
-            "classes": grups,
-            "subjects": SUBJECT_CHOICES,
-        })
+        if request.method == "POST":
+            subject = request.POST['subject']
+            content = request.POST['content']
+            deadline = request.POST['deadline']
+            group_id = request.POST['group']
+            group = Class.objects.get(pk=group_id)
+            homework = Homework.objects.create(subject=subject, content=content, deadline=deadline, group=group, teacher=user)
+            homework.save()
+            return render(request, "classroom/homework.html", {
+                "message": "Homework created"
+            })
+        else:
+            given_homeworks = user.given_homeworks.all()
+            school = user.school
+            grups = school.classes.all()
+            return render(request, "classroom/homework.html", {
+                "homeworks": given_homeworks,
+                "classes": grups,
+                "subjects": SUBJECT_CHOICES,
+                "perrmision": True
+            })
         
 

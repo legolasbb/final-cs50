@@ -8,14 +8,20 @@
 
 {%block body%}
     {{message}}
+    {% if perrmision == True %}
     <button id="homework_button">Homeworks</button>
     <button id="add_button">Add Homework</button>
-
+    {%endif%}
     <div id="homework">
         {%for homework in homeworks%}
-            {{homework.content}}
+            <div class="homework_display">
+                <h4>{{homework.get_subject_display}} {% if perrmision == True %}{{homework.group}}{%endif%}</h4>
+                {{homework.content}}
+            </div>
+            
         {%endfor%}
     </div>
+    {% if perrmision == True %}
     <div id="add">
         <form action="" method="post">
             {%csrf_token%}
@@ -34,6 +40,7 @@
             <input type="submit" value="submit">
         </form>
     </div>
+    {%endif%}
 
     {%block script%}
         <script src="{% static 'classroom/homework.js' %}"></script>

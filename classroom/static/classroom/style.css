@@ -24,3 +24,12 @@
 .time_lesson{
     font-size: 10px;
 }
+
+.homework_display{
+    margin-left: 5px;
+    margin-top: 20px;
+    border-style: solid;
+    border-radius: 15px;
+    padding: 5px;
+    max-width: 85%;
+}

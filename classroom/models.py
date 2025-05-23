@@ -33,6 +33,8 @@ class School(models.Model):
 class Class(models.Model):
     name = models.CharField(max_length=100)
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='classes')
+    def __str__(self):
+        return self.name
     
 class User(AbstractUser):
     type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES, null=True)
