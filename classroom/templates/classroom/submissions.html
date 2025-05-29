@@ -11,6 +11,19 @@
     <h3>{{homework.content}}</h3>
 
     {% for submision in submissions %}
-        <div>{{submision.student}} <button >Grade</button></div>
+        <div>{{submision.student}} <button onclick="gradeView('{{submision.pk}}')">Grade</button>
+            <div class="grade_view" id="{{submision.pk}}" style="display: none;">{{submision.content}}
+                <form action="" method="POST">
+                    <input type="number" min="0" max="100" name="grade" placeholder="Grade (0-100)">
+                    <input type="text" name="feedback" placeholder="Write your feedback here (optional)">
+                    <input type="submit">
+                </form>
+                <button onclick="gradeView('{{submision.pk}}')">Back</button>
+            </div>
+        </div>
+        
     {%endfor%}
+    {%block script%}
+        <script src="{% static 'classroom/grade.js' %}"></script>
+    {%endblock%}
 {%endblock%}

@@ -62,3 +62,6 @@ class homework_submission(models.Model):
     homework = models.ForeignKey(Homework, on_delete=models.CASCADE, related_name="students_submissions")
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="my_submissions")
     content = models.CharField(max_length=10000)    
+
+#class Grade
+#    submission = models.ForeignKey(homework_submission, on_delete=models.CASCAD)
