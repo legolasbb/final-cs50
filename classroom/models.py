@@ -49,7 +49,6 @@ class Lesson(models.Model):
     time_start = models.TimeField()
     time_end = models.TimeField()
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="teacher_lessons")
-    #students = models.ManyToManyField(User, related_name="student_lessons")
     group = models.ForeignKey(Class, on_delete=models.CASCADE, related_name="class_lessons")
 
 class Homework(models.Model):
@@ -62,5 +61,4 @@ class Homework(models.Model):
 class homework_submission(models.Model):
     homework = models.ForeignKey(Homework, on_delete=models.CASCADE, related_name="students_submissions")
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="my_submissions")
-    content = models.CharField(max_length=10000)
-    
+    content = models.CharField(max_length=10000)    

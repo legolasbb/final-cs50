@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, School, Class, Lesson, Homework
+from .models import User, School, Class, Lesson, Homework, homework_submission
 
 # Register your models here.
 
@@ -8,3 +8,4 @@ admin.site.register(School)
 admin.site.register(Class)
 admin.site.register(Lesson)
 admin.site.register(Homework)
+admin.site.register(homework_submission)

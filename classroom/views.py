@@ -218,4 +218,22 @@ def homework_view(request):
                 "perrmision": True
             })
         
+@login_required
+def homework_submission_view(request, homework_id):
+    user = request.user
+    homework = Homework.objects.get(pk=homework_id)
 
+    if user.type == "SU":
+        if request.method == "POST":
+            content = request.POST['content']
+            submission = homework_submission.objects.create(homework=homework, student=user, content=content)
+            submission.save()
+            return render(request, "classroom/submission.html", {
+                "homework": homework,
+                "message": "submited succesfully"
+            })
+        else:
+            homework = Homework.objects.get(pk=homework_id)
+            return render(request, "classroom/submission.html", {
+                "homework": homework
+            })
