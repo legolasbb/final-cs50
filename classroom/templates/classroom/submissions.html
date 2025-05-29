@@ -1,0 +1,16 @@
+{% extends "classroom/layout.html" %}
+
+
+{% load static %}
+
+{%block title%}
+    submissions
+{%endblock%}
+
+{%block body%}
+    <h3>{{homework.content}}</h3>
+
+    {% for submision in submissions %}
+        <div>{{submision.student}} <button >Grade</button></div>
+    {%endfor%}
+{%endblock%}
