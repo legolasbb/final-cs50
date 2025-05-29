@@ -63,5 +63,7 @@ class homework_submission(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="my_submissions")
     content = models.CharField(max_length=10000)    
 
-#class Grade
-#    submission = models.ForeignKey(homework_submission, on_delete=models.CASCAD)
+class Grade(models.Model):
+    submission = models.ForeignKey(homework_submission, on_delete=models.CASCADE, related_name="grade")
+    grade = models.IntegerField()
+    feedback = models.CharField(max_length=1000)

@@ -10,15 +10,17 @@
 {%block body%}
     <h3>{{homework.content}}</h3>
 
-    {% for submision in submissions %}
-        <div>{{submision.student}} <button onclick="gradeView('{{submision.pk}}')">Grade</button>
-            <div class="grade_view" id="{{submision.pk}}" style="display: none;">{{submision.content}}
+    {% for submission in submissions %}
+        <div>{{submission.student}} <button onclick="gradeView('{{submission.pk}}')">Grade</button>
+            <div class="grade_view" id="{{submission.pk}}" style="display: none;">{{submission.content}}
                 <form action="" method="POST">
+                    {%csrf_token%}
                     <input type="number" min="0" max="100" name="grade" placeholder="Grade (0-100)">
                     <input type="text" name="feedback" placeholder="Write your feedback here (optional)">
+                    <input type="hidden" value="{{submission.pk}}" name="submission.id">
                     <input type="submit">
                 </form>
-                <button onclick="gradeView('{{submision.pk}}')">Back</button>
+                <button onclick="gradeView('{{submission.pk}}')">Back</button>
             </div>
         </div>
         

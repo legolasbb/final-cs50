@@ -239,7 +239,17 @@ def homework_submission_view(request, homework_id):
             })
     else:
         if request.method == "POST":
+            submissions = homework.students_submissions.all()
             grade  = request.POST['grade']
+            feedback = request.POST['feedback']
+            submission_id=request.POST['submission.id']
+            submission=homework_submission.objects.get(pk=submission_id)
+            grade = Grade.objects.create(grade=grade, feedback=feedback, submission=submission)
+            grade.save()
+            return render(request, "classroom/submissions.html",{
+                "submissions": submissions,
+                "homework": homework
+            })
         else:
             submissions = homework.students_submissions.all()
             return render(request, "classroom/submissions.html",{
