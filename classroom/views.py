@@ -256,3 +256,26 @@ def homework_submission_view(request, homework_id):
                 "submissions": submissions,
                 "homework": homework
             })
+        
+def grade_view(request):
+    user = request.user
+    if user.type == "SU":
+        submissions = user.my_submissions.all()
+        averages = []
+        for subject in SUBJECT_CHOICES:
+            subject_name = subject[1]
+            sum = 0
+            amount = 0
+            for submission in submissions:
+                if subject_name == submission.homework.get_subject_display():
+                    for grade in submission.grade.all():
+                        sum+=grade.grade
+                        amount+=1
+            if amount == 0:
+                averages.append((subject_name, 0))
+            else:
+                averages.append((subject_name, round(sum / amount, 2)))
+        return render(request, "classroom/su_grade.html",{
+            "submissions": submissions,
+            "subjects": averages 
+        })

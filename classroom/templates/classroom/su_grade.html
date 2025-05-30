@@ -1,0 +1,25 @@
+{% extends "classroom/layout.html" %}
+
+
+{% load static %}
+
+{%block title%}
+    Grades 
+{%endblock%}
+
+{%block body%}
+    {% for subject in subjects %}
+        <h4>{{subject.0}}</h4>
+
+        {% for submission in submissions %}
+            {% if subject.0 == submission.homework.get_subject_display %}
+                {% for grade in submission.grade.all %}
+                    <div class = "grade">{{ grade.grade }}</div>
+                {%endfor%}
+            {%endif%}
+        {%endfor%}
+        <div class="grade">{{subject.1}}</div>
+    {%endfor%}
+
+
+{%endblock%}
