@@ -14,12 +14,14 @@
         {% for submission in submissions %}
             {% if subject.0 == submission.homework.get_subject_display %}
                 {% for grade in submission.grade.all %}
-                    <div class = "grade">{{ grade.grade }}</div>
+                    <div class = "grade" data-score="{{grade.grade}}">{{ grade.grade }}</div>
                 {%endfor%}
             {%endif%}
         {%endfor%}
-        <div class="grade">{{subject.1}}</div>
+        <div class="grade" data-score="{{subject.1}}">Average: {{subject.1}}</div>
     {%endfor%}
-
+    {%block script%}
+        <script src="{% static 'classroom/colors.js' %}"></script>
+    {%endblock%}
 
 {%endblock%}

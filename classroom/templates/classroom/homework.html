@@ -16,7 +16,7 @@
         {%for homework in homeworks%}
             <div class="homework_display">
                 <h4>{{homework.get_subject_display}} {% if perrmision == True %}{{homework.group}}{%endif%}</h4>
-                {{homework.content}}
+                {{homework.content}} {{homework.deadline}}
                 {% if perrmision == False %}
                     <a href="{% url 'submission' homework.pk %}">Submit</a>
                 {% endif %}

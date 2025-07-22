@@ -9,7 +9,6 @@ from datetime import *
 from .models import *
 
 
-# Create your views here.
 DAY_CHOICES = [
     ("MON", "MONDAY"),
     ("TUE", "TUESDAY"),
@@ -190,7 +189,7 @@ def homework_view(request):
             subject = request.POST['subject']
         else:
             group=user.group
-            homeworks = group.homeworks.all()
+            homeworks = group.homeworks.filter(deadline__gte=date.today()).order_by('deadline')
             return render(request, "classroom/homework.html", {
                 "homeworks": homeworks,
                 "perrmision": False
@@ -208,7 +207,7 @@ def homework_view(request):
                 "message": "Homework created"
             })
         else:
-            given_homeworks = user.given_homeworks.all()
+            given_homeworks = user.given_homeworks.order_by('-deadline')
             school = user.school
             grups = school.classes.all()
             return render(request, "classroom/homework.html", {
@@ -240,12 +239,21 @@ def homework_submission_view(request, homework_id):
     else:
         if request.method == "POST":
             submissions = homework.students_submissions.all()
-            grade  = request.POST['grade']
-            feedback = request.POST['feedback']
-            submission_id=request.POST['submission.id']
-            submission=homework_submission.objects.get(pk=submission_id)
-            grade = Grade.objects.create(grade=grade, feedback=feedback, submission=submission)
-            grade.save()
+            if request.POST['type'] == 'grade':
+                grade  = request.POST['grade']
+                feedback = request.POST['feedback']
+                submission_id=request.POST['submission.id']
+                submission=homework_submission.objects.get(pk=submission_id)
+                grade = Grade.objects.create(grade=grade, feedback=feedback, submission=submission, teacher=user)
+                grade.save()
+            else:
+                grade  = request.POST['grade']
+                feedback = request.POST['feedback']
+                grade_id=request.POST['submission.id']
+                grade_edit = Grade.objects.get(pk=grade_id)
+                grade_edit.grade=grade
+                grade_edit.feedback=feedback
+                grade_edit.save()
             return render(request, "classroom/submissions.html",{
                 "submissions": submissions,
                 "homework": homework
@@ -262,6 +270,7 @@ def grade_view(request):
     if user.type == "SU":
         submissions = user.my_submissions.all()
         averages = []
+        #calculate average for every subject
         for subject in SUBJECT_CHOICES:
             subject_name = subject[1]
             sum = 0
@@ -278,4 +287,15 @@ def grade_view(request):
         return render(request, "classroom/su_grade.html",{
             "submissions": submissions,
             "subjects": averages 
+        })
+    else:
+        grades = user.students_grades.all()
+        students = set()
+        for grade in grades:
+            students.add(grade.submission.student)
+        students_list=list(students)
+        return render(request, "classroom/st_grade.html",{
+            "grades": grades,
+            "students":students_list,
+            "subjects": SUBJECT_CHOICES
         })

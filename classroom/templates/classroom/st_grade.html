@@ -1,0 +1,28 @@
+{% extends "classroom/layout.html" %}
+
+
+{% load static %}
+
+{%block title%}
+    Grades 
+{%endblock%}
+
+{%block body%}
+    {%for subject in subjects%}
+        <h2>{{subject.1}}</h2>
+        {%for student in students%}
+            <h6>{{student.first_name}} {{student.last_name}}</h6>
+            {% for grade in grades %}
+                {% if grade.submission.student == student%}
+                    {% if grade.submission.homework.subject == subject.0 %}
+                        <div class="grade" data-score="{{grade.grade}}">{{grade.grade}}</div>
+                    {%endif%}
+                {%endif%}
+            {%endfor%}
+        {%endfor%}
+    {%endfor%}
+    
+    {%block script%}
+        <script src="{% static 'classroom/colors.js' %}"></script>
+    {%endblock%}
+{%endblock%}
