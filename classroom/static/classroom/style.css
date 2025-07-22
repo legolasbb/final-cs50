@@ -1,4 +1,20 @@
+#login_box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    border-radius: 15px;
+    border-color: black;
+    border-style: solid;
+    padding: 15px;
+    width: 350px;
+}
 
+.login_form{
+    margin-bottom: 10px;
+    width: 100%;
+}
 
 .plan_div{
     display: flex;
