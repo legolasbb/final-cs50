@@ -1,1 +1,30 @@
 {% extends "classroom/layout.html" %}
+
+
+{% load static %}
+
+{%block title%}
+    Home
+{%endblock%}
+
+{%block body%}
+    <div>
+        <div>Upcoming homeworks:</div>
+        <ul>
+            {%for homework in homeworks%}
+            <li>{{homework.get_subject_display}}, {{homework.deadline}}</li>
+            {%endfor%}
+        </ul>
+    </div>
+    {% if permission == True%}
+    <div>
+        <div>Latest grades:</div>
+        <ul>
+            {%for grade in grades %}
+            <li>{{grade.grade}}, {{grade.submission.homework.get_subject_display}}</li>
+            {%endfor%}
+        </ul>
+    </div>
+    {%endif%}
+    
+{%endblock%}

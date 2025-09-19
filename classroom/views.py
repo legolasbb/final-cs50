@@ -32,7 +32,31 @@ SUBJECT_CHOICES = [
 
 @login_required
 def index(request):
-    return render(request, "classroom/index.html")
+    user=request.user
+    permission=True
+    if user.type == "SU":
+        #student
+        group = user.group
+        homeworks = group.homeworks.filter(deadline__gte=date.today()).order_by('deadline')[:3]
+        #get submissions in order to get grades
+        submissions = user.my_submissions.all()
+        grades = list()
+        i =0
+        for submission in submissions:
+            if i>=5:
+                break
+            if submission.grade.first():
+                i+=1
+                grades.append(submission.grade.first())
+    else:
+        permission=False
+        #teacher
+        homeworks = user.given_homeworks.all().filter(deadline__gte=date.today()).order_by('deadline')[:3]
+    return render(request, "classroom/index.html", {
+        "homeworks": homeworks,
+        "grades": grades,
+        "permission": permission
+    })
 
 @login_required
 def logout_view(request):
@@ -185,9 +209,11 @@ def homework_view(request):
     user= request.user
 
     if user.type=="SU":
+        #student
         if request.method=="POST":
             subject = request.POST['subject']
         else:
+            #get and display all homeworks
             group=user.group
             homeworks = group.homeworks.filter(deadline__gte=date.today()).order_by('deadline')
             return render(request, "classroom/homework.html", {
@@ -195,7 +221,9 @@ def homework_view(request):
                 "perrmision": False
             })
     else:
+        #teacher
         if request.method == "POST":
+            #get all details and create new homework
             subject = request.POST['subject']
             content = request.POST['content']
             deadline = request.POST['deadline']
@@ -207,6 +235,7 @@ def homework_view(request):
                 "message": "Homework created"
             })
         else:
+            #get homeworks by ordered by deadline and request the,
             given_homeworks = user.given_homeworks.order_by('-deadline')
             school = user.school
             grups = school.classes.all()
@@ -223,7 +252,9 @@ def homework_submission_view(request, homework_id):
     homework = Homework.objects.get(pk=homework_id)
 
     if user.type == "SU":
+        #student
         if request.method == "POST":
+            #get post and submit homework submission
             content = request.POST['content']
             submission = homework_submission.objects.create(homework=homework, student=user, content=content)
             submission.save()
@@ -232,11 +263,13 @@ def homework_submission_view(request, homework_id):
                 "message": "submited succesfully"
             })
         else:
+            #display submission form
             homework = Homework.objects.get(pk=homework_id)
             return render(request, "classroom/submission.html", {
                 "homework": homework
             })
     else:
+        #teacher
         if request.method == "POST":
             submissions = homework.students_submissions.all()
             if request.POST['type'] == 'grade':
@@ -289,6 +322,7 @@ def grade_view(request):
             "subjects": averages 
         })
     else:
+        #getting all grades given by the students
         grades = user.students_grades.all()
         students = set()
         for grade in grades:
