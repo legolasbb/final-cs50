@@ -12,7 +12,7 @@
         <div>Upcoming homeworks:</div>
         <ul>
             {%for homework in homeworks%}
-            <li>{{homework.get_subject_display}}, {{homework.deadline}}</li>
+            <li><a href="{% url 'submission' homework.id %}">{{homework.get_subject_display}}, {{homework.deadline}}</a></li>
             {%endfor%}
         </ul>
     </div>
@@ -21,10 +21,14 @@
         <div>Latest grades:</div>
         <ul>
             {%for grade in grades %}
-            <li>{{grade.grade}}, {{grade.submission.homework.get_subject_display}}</li>
+            <li>{{grade.grade}}, {{grade.submission.homework.get_subject_display}}.
+            </li>
             {%endfor%}
         </ul>
     </div>
     {%endif%}
+    {%block script%}
+        <script src="{% static 'classroom/home.js' %}"></script>
+    {%endblock%}
     
 {%endblock%}

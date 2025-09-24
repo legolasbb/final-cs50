@@ -34,16 +34,17 @@ SUBJECT_CHOICES = [
 def index(request):
     user=request.user
     permission=True
+    grades = list()
     if user.type == "SU":
         #student
         group = user.group
-        homeworks = group.homeworks.filter(deadline__gte=date.today()).order_by('deadline')[:3]
+        homeworks = group.homeworks.filter(deadline__gte=date.today()).order_by('deadline')
         #get submissions in order to get grades
         submissions = user.my_submissions.all()
-        grades = list()
+       
         i =0
         for submission in submissions:
-            if i>=5:
+            if i>=3:
                 break
             if submission.grade.first():
                 i+=1
