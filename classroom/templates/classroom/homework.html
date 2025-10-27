@@ -15,17 +15,19 @@
     <div id="homework">
         {%for homework in homeworks%}
             <div class="homework_display">
-                <h4>{{homework.get_subject_display}} {% if perrmision == True %}{{homework.group}}{%endif%}</h4>
-                {{homework.content}} {{homework.deadline}}
+                <h3>{{homework.get_subject_display}}</h3>
+                <div style="display: flex;">
+                <div class="homework-contents" style="display: flex;"> {% if perrmision == True %}{{homework.group}}{%endif%}
+                {{homework.content}} <div style="color: rgba(66, 66, 66, 0.8)">&nbsp;Due to: {{homework.deadline}}</div></div>
                 {% if perrmision == False %}
-                    <a href="{% url 'submission' homework.pk %}">Submit</a>
+                    <div class="homework-submit-button"><a style="color: rgba(221, 221, 221, 0.843)" href="{% url 'submission' homework.pk %}">Submit</a></div>
                 {% endif %}
                 {% if perrmision == True %}
-                    <a href="{% url 'submission' homework.pk %}"> See submissions</a>
+                    <div class="homework-submit-button" ><a style="color: rgba(221, 221, 221, 0.843)" href="{% url 'submission' homework.pk %}"> See submissions</a></div>
                 {%endif%}
+                </div>
             </div>
-            
-        {%endfor%}
+            {%endfor%}
     </div>
     {% if perrmision == True %}
     <div id="add">

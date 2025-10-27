@@ -9,12 +9,18 @@
 
 {%block body%}
     {{message}}
-    <h1>{{homework.get_subject_display}}</h1>
-    <h3>{{homework.content}}</h3>
-    {{homework.deadline}}
-    <form action="" method="POST">
-        {%csrf_token%}
-        <textarea name="content" placeholder="Paste your subbmsion here"></textarea>
-        <input type="submit" name="submit">
-    </form>
+    <div id="homework-page">
+        <h2 style="text-align: center;">{{homework.get_subject_display}}</h1>
+        <div class="homework-box">   
+            <div style="color: rgba(0, 0, 0, 0.5);">Due to {{homework.deadline}}</div>
+            <h4>{{homework.content}}</h3>
+        </div>
+        <div class="homework-box" style="border-top-width: 0px;">
+            <form action="" method="POST">
+                {%csrf_token%}
+                <textarea id="homework-content" name="content" placeholder="Paste your subbmsion here"></textarea>
+                <input id="homework-submit" type="submit" name="submit">
+            </form>
+        </div>
+    </div> 
 {%endblock%}

@@ -323,14 +323,17 @@ def grade_view(request):
             "subjects": averages 
         })
     else:
-        #getting all grades given by the students
+        #getting all grades given to the students
         grades = user.students_grades.all()
         students = set()
+        subjects = set()
         for grade in grades:
             students.add(grade.submission.student)
+            subjects.add(grade.submission.homework.get_subject_display())
         students_list=list(students)
+        subjects_list = list(subjects)
         return render(request, "classroom/st_grade.html",{
             "grades": grades,
             "students":students_list,
-            "subjects": SUBJECT_CHOICES
+            "subjects": subjects_list
         })

@@ -8,18 +8,26 @@
 {%endblock%}
 
 {%block body%}
+<div style="background-color: rgba(200, 200, 200, 0.9);">
     {% for subject in subjects %}
-        <h4>{{subject.0}}</h4>
-
-        {% for submission in submissions %}
-            {% if subject.0 == submission.homework.get_subject_display %}
-                {% for grade in submission.grade.all %}
-                    <div class = "grade" data-score="{{grade.grade}}">{{ grade.grade }}</div>
+    <div class="subject-page">
+        <div class="subject-box"><h2>{{subject.0}}</h2></div>
+        <div class="grades-box">
+            <div style="padding-bottom: 10px;"><div name="grade" class="average" data-score="{{subject.1}}">Average: {{subject.1}}</div></div>
+            <div>
+                {% for submission in submissions %}
+                    {% if subject.0 == submission.homework.get_subject_display %}
+                        {% for grade in submission.grade.all %}
+                            <div class = "grade" name="grade" data-score="{{grade.grade}}">{{ grade.grade }}</div>
+                        {%endfor%}
+                    {%endif%}
                 {%endfor%}
-            {%endif%}
-        {%endfor%}
-        <div class="grade" data-score="{{subject.1}}">Average: {{subject.1}}</div>
+            </div>
+        </div>
+    </div>
     {%endfor%}
+</div>
+    
     {%block script%}
         <script src="{% static 'classroom/colors.js' %}"></script>
     {%endblock%}
