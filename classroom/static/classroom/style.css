@@ -5,7 +5,7 @@
     transform: translate(-50%, -50%);
     text-align: center;
     border-radius: 15px;
-    border-color: black;
+    border-color: rgba(195, 232, 213, 0.9);
     border-style: solid;
     padding: 15px;
     width: 350px;
@@ -67,6 +67,10 @@
     background-color: #42abe3;
 }
 
+.homework-submit-button:hover{
+    background-color: #2e769d;
+    border-color: #2e769d;
+}
 .grade_view{
     display: none;
     top: 0;
@@ -75,6 +79,31 @@
     height: 100%;
     position: fixed;
     background-color: white;
+}
+
+.submissions-form{
+    width: 100%;
+    text-align: center;
+}
+
+.submissions-form input{
+    margin-bottom: 10px;
+}
+
+.submissions-form input[type="number"]{
+    width: 180px
+}
+
+.submissions-form input[type="text"]{
+    width: 500dpx
+}
+
+.answer-box{
+    font-size: 24px;
+    border-style: solid;
+    border-color: grey;
+    padding: 5px;
+    margin-bottom: 10px;
 }
 
 .grade{
@@ -139,4 +168,100 @@
     width: 60%;
     background-color: white;
     padding-left: 20px;
+}
+
+#home-page{
+    display: flex;
+    margin-top: 50px;
+    width: 100%;
+}
+
+#home-homeworks{
+    width: 40%;
+    margin-left: 20%;
+    
+}
+
+.home-box{
+    display: flex;
+    font-size: 20px;
+    border-style: solid;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-color: #f4f5f7;
+    width: 80%;
+    padding: 10px;
+}
+.view-button{
+    margin-left: 10px;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: powderblue;
+    background-color: powderblue;
+}
+
+.view-button:hover{
+    background-color: #4dc1ff6b;
+    border-color: #4dc1ff6b;
+}
+#home-grades{
+    border-style: solid;
+    border-radius: 5px;
+    border-color: #f4f5f7;
+    width: 20%;
+    padding: 15px;
+}
+
+#add-form{
+    padding: 15px;
+    display: block;
+    margin-left: 40%;
+    width: fit-content;
+    text-align: center;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: rgba(170, 169, 169, 0.847);
+    box-shadow: 10px 10px 5px #888888;
+}
+
+.add-field{
+    margin-bottom: 10px;
+}
+
+.submission{
+    display: flex;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-style: solid;
+    font-size: 20px;
+}
+
+@media (max-width: 768px) {
+    .plan_div{
+        width: 100%;
+        margin-left: 30%;
+        display: block;
+    }
+    .flex_child{
+        margin-bottom: 30px;
+    }
+    #add-form{
+        width: 80%;
+        margin-left: 12%;
+        margin-top: 10%;
+    }
+    #homework-page{
+        left: 3.5%;
+    }
+    #home-page{
+        display: block;
+        width: 100%;
+    }
+    #home-homeworks{
+        width: 80%;
+    }
+    #home-grades{
+        width: 64%;
+        margin-left: 20%;
+    }
 }

@@ -73,32 +73,47 @@
     </div>
     {% if perrmision == True %}
     <div id="add_view">
-        <form action="" method="post">
-            {%csrf_token%}
-            <input type="time" name="start_time" placeholder="Start Time">
-            <input type="time" name="end_time" placeholder="End Time">
-            <select name="teacher">
-                {% for teacher in teachers %}
-                    <option value="{{teacher.id}}">{{teacher.first_name}} {{teacher.last_name}}</option>
-                {%endfor%}
-            </select>
-            <select name="class">
-                {% for clas in classes %}
-                    <option value="{{clas.id}}">{{clas.name}}</option>
-                {%endfor%}
-            </select>
-            <select name="day">
-                {% for day in days %}
-                    <option value="{{day.0}}">{{day.1}}</option>
-                {%endfor%}
-            </select>
-            <select name="subject">
-                {%for subject in subjects%}
-                    <option  value="{{subject.0}}">{{subject.1}}</option>
-                {%endfor%}
-            </select>
-            <input type="submit" value ="submit">
-        </form>
+        <div id="add-form">
+            <h3>Add a new lesson</h3>
+            <hr>
+            <form action="" method="post">
+                {%csrf_token%}
+                <div class="add-field">
+                    <select name="subject">
+                        {%for subject in subjects%}
+                            <option  value="{{subject.0}}">{{subject.1}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="add-field"><input type="time" name="start_time" placeholder="Start Time"><input type="time" name="end_time" placeholder="End Time"></div>
+                <div class="add-field">
+                    <select name="teacher">
+                        {% for teacher in teachers %}
+                            <option value="{{teacher.id}}">{{teacher.first_name}} {{teacher.last_name}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="add-field">
+                    <select name="class">
+                        {% for clas in classes %}
+                            <option value="{{clas.id}}">{{clas.name}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="add-field">
+                    <select name="day">
+                        {% for day in days %}
+                            <option value="{{day.0}}">{{day.1}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                
+                
+                <div class="add-field"><input type="submit" value ="submit"></div>
+            </form>
+        </div>
+        
+        
     </div>
     {%endif%}
     {% block script %}

@@ -1,30 +1,30 @@
 {% extends "classroom/layout.html" %}
 
-
 {% load static %}
+
 
 {%block title%}
     Home
 {%endblock%}
 
 {%block body%}
-    <div>
-        <div>Upcoming homeworks:</div>
-        <ul>
-            {%for homework in homeworks%}
-            <li><a href="{% url 'submission' homework.id %}">{{homework.get_subject_display}}, {{homework.deadline}}</a></li>
-            {%endfor%}
-        </ul>
-    </div>
-    {% if permission == True%}
-    <div>
-        <div>Latest grades:</div>
-        <ul>
-            {%for grade in grades %}
-            <li>{{grade.grade}}, {{grade.submission.homework.get_subject_display}}.
-            </li>
-            {%endfor%}
-        </ul>
+    <div id="home-page">
+        <div id="home-homeworks">
+            <div><h3>Upcoming homeworks:</h3></div>
+                {%for homework in homeworks%}
+                <div class="home-box"><div>{{homework.get_subject_display}}, {{homework.deadline}}</div><div class="view-button"><a style="color: #2e769d;" href="{% url 'submission' homework.id %}">View</a></div></div>
+                {%endfor%}
+            </div>
+        {% if permission == True%}
+        <div id="home-grades">
+            <div><h3>Latest grades:</h3></div>
+            <ul>
+                {%for grade in grades %}
+                <li>{{grade.grade}}, {{grade.submission.homework.get_subject_display}}.
+                </li>
+                {%endfor%}
+            </ul>
+        </div>
     </div>
     {%endif%}
     {%block script%}

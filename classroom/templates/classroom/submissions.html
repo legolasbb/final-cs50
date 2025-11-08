@@ -8,41 +8,50 @@
 {%endblock%}
 
 {%block body%}
-    <h3>{{homework.content}}</h3>
-
+    <h3 style="text-align: center;">Task: {{homework.content}}</h3>
+    <div id="homework-page">
     {% for submission in submissions %}
-        <div>{{submission.student}}</div>
+    <div class="submission">
+        <div style="margin-right: 20px;"><b>{{submission.student}}</b></div>
         {%if submission.grade.all %}
-            <div>Grade: {{submission.grade.all.first.grade}}</div> 
-            <div> <button onclick="gradeView('{{submission.pk}}')">Edit</button>
-                <div class="grade_view" id="{{submission.pk}}" style="display: none;">{{submission.content}}
+            <div style="margin-right: 10px;">Given grade: {{submission.grade.all.first.grade}}</div> 
+            <div><button onclick="gradeView('{{submission.pk}}')">Edit</button>
+                <div class="grade_view" id="{{submission.pk}}" style="display: none;">
+                    <div class="submissions-form">
+                    <div class="answer-box">Answer: {{submission.content}}</div>
                     <form action="" method="POST">
                         {%csrf_token%}
-                        <input type="hidden" name="type" value="edit"> 
-                        <input type="number" min="0" max="100" name="grade" placeholder="Grade (0-100)">
-                        <input type="text" name="feedback" placeholder="Write your feedback here (optional)">
-                        <input type="hidden" value="{{submission.grade.first.pk}}" name="submission.id">
-                        <input type="submit">
+                        <div><input type="hidden" name="type" value="edit"></div> 
+                        <div><input type="number" min="0" max="100" name="grade" placeholder="Grade (0-100)"></div>
+                        <div><input type="text" name="feedback" placeholder="Write your feedback here (optional)"></div>
+                        <div><input type="hidden" value="{{submission.grade.first.pk}}" name="submission.id"></div>
+                        <div><input type="submit"></div>
                     </form>
+                    </div>
                     <button onclick="gradeView('{{submission.pk}}')">Back</button>
                 </div>
             </div>
         {%else%}
-        <div> <button onclick="gradeView('{{submission.pk}}')">Grade</button>
+        <div><button onclick="gradeView('{{submission.pk}}')">Grade</button>
             <div class="grade_view" id="{{submission.pk}}" style="display: none;">{{submission.content}}
-                <form action="" method="POST">
-                    {%csrf_token%}
-                    <input type="hidden" name="type" value="grade"> 
-                    <input type="number" min="0" max="100" name="grade" placeholder="Grade (0-100)">
-                    <input type="text" name="feedback" placeholder="Write your feedback here (optional)">
-                    <input type="hidden" value="{{submission.pk}}" name="submission.id">
-                    <input type="submit">
-                </form>
-                <button onclick="gradeView('{{submission.pk}}')">Back</button>
+                <div class="submissions-form">
+                    <div class="answer-box">Answer: {{submission.content}}</div>
+                    <form action="" method="POST">
+                        {%csrf_token%}
+                        <div><input type="hidden" name="type" value="edit"></div> 
+                        <div><input type="number" min="0" max="100" name="grade" placeholder="Grade (0-100)"></div>
+                        <div><input type="text" name="feedback" placeholder="Write your feedback here (optional)"></div>
+                        <div><input type="hidden" value="{{submission.grade.first.pk}}" name="submission.id"></div>
+                        <div><input type="submit"></div>
+                    </form>
+                    </div>
+                    <button onclick="gradeView('{{submission.pk}}')">Back</button>
             </div>
         </div>
         {%endif%}
+    </div>
     {%endfor%}
+    </div>
     {%block script%}
         <script src="{% static 'classroom/grade.js' %}"></script>
     {%endblock%}

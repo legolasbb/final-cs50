@@ -31,22 +31,29 @@
     </div>
     {% if perrmision == True %}
     <div id="add">
-        <form action="" method="post">
-            {%csrf_token%}
-            <select name="subject">
-                {%for subject in subjects%}
-                    <option  value="{{subject.0}}">{{subject.1}}</option>
-                {%endfor%}
-            </select>
-            <textarea name="content" ></textarea>
-            <input type="date" name="deadline">
-            <select name="group">
-                {% for clas in classes %}
-                    <option value="{{clas.id}}">{{clas.name}}</option>
-                {%endfor%}
-            </select>
-            <input type="submit" value="submit">
-        </form>
+        <div id="add-form">
+            <form action="" method="post">
+                {%csrf_token%}
+                <div class="add-field">
+                    <select name="subject">
+                        {%for subject in subjects%}
+                            <option  value="{{subject.0}}">{{subject.1}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="add-field"><textarea name="content" placeholder="Type content of homework."></textarea></div>
+                <div class="add-field"><input type="date" name="deadline"></div>
+                <div class="add-field">
+                    <select name="group">
+                        {% for clas in classes %}
+                            <option value="{{clas.id}}">{{clas.name}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="add-field"><input type="submit" value="Submit"></div>
+            </form>
+        </div>
+        
     </div>
     {%endif%}
 
