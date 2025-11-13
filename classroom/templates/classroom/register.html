@@ -2,32 +2,36 @@
 <html lang="en">
 <head>
     {% load static %}
+    <link rel="stylesheet" href="{% static 'classroom/style.css'%}">
     <title>Register</title>
 </head>
 <body>
     {{message}}
-    
-    <form action = "{% url 'register' %}" method = "post">
-        {% csrf_token %}
-        <div>
-            <input autofocus name="username" placeholder="username" type="text">
-        <input name="name" placeholder="name" type="text">
-        <input name="surname" placeholder="surname" type="text">
-        <input name="email" placeholder="email" type="email">
-        <select id="choice" name="type" size="2" multiple>
-            <option value="ST">Staff</option>
-            <option value="SU">Student</option>
-        </select>
-        <div id="class">
-            <input type="text" name="class" placeholder="class">            
-        </div>
-        <input type="text" name="school" placeholder="school">
-        <input type="password" name="password" placeholder="password">
-        <input type="password" name="confirmation" placeholder="Confirm password">
-        <input type="submit" value="register"> 
-        </div>
-        
-    </form>
+    <div>
+        <form id="register-form-box"  action = "{% url 'register' %}" method = "post">
+            {% csrf_token %}
+            <div id="register-form">
+            <div><input autofocus name="username" placeholder="username" type="text"></div>
+            <div><input name="name" placeholder="name" type="text"></div>
+            <div><input name="surname" placeholder="surname" type="text"></div>
+            <div><input name="email" placeholder="email" type="email"></div>
+            <div><select id="choice" name="type" size="2" multiple>
+                <option value="ST">Staff</option>
+                <option value="SU">Student</option>
+            </select></div>
+            <div id="class">
+                <div><input type="text" name="class" placeholder="class"></div>            
+            </div>
+            <div><input type="text" name="school" placeholder="school"></div>
+            <div><input type="password" name="password" placeholder="password"></div>
+            <div><input type="password" name="confirmation" placeholder="Confirm password"></div>
+            <div><input type="submit" value="register"></div> 
+            </div>
+            
+        </form>
+        <div>Already have account? <a href="{% url 'login'%}">Log in</a></div>
+    </div>
+   
 </body>
 
 {% block script %}

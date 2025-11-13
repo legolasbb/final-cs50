@@ -11,9 +11,15 @@
     width: 350px;
 }
 
-.login_form{
-    margin-bottom: 10px;
-    width: 100%;
+
+#register-form-box{
+    margin-top: 10%;
+    display: block;
+    text-align: center;
+}
+
+#register-form div{
+    margin-bottom: 5px;
 }
 
 .plan_div{

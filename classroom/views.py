@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django import forms
 from datetime import *
 from .models import *
+from django.contrib import messages
 
 
 DAY_CHOICES = [
@@ -154,22 +155,19 @@ def plan_view(request):
         #confilct in class
         for lesson in class_lessons:
             if check_time(time_start, time_end, lesson.time_start, lesson.time_end)==False:
-                return render(request, "classroom/plan.html", {
-                    "message": "Time conflict"
-                })
+                messages.error(request, "Time conflict")
+                return redirect('plan')
         
         #conflict in lesson
         for lesson in teacher_lessons:
             if check_time(time_start, time_end, lesson.time_start, lesson.time_end)==False:
-                return render(request, "classroom/plan.html", {
-                    "message": "Time conflict"
-                })
+                messages.error(request, "Time conflict")
+                return redirect('plan')
         
         #check if time is valid
         if time_start>time_end:
-            return render(request, "classroom/plan.html", {
-                "message": "Invalid time"
-            })
+            messages.error(request, "Time conflict")
+            return redirect('plan')
         
         
         #rest of data
@@ -177,9 +175,11 @@ def plan_view(request):
         #create new lesson
         lesson = Lesson.objects.create(subject=subject, day=day, time_start=time_start, time_end=time_end, teacher=teacher, group=group)
         lesson.save()
-        return render(request, "classroom/plan.html", {
+        messages.success(request, "Lesson created")
+        return redirect('plan')
+        '''return render(request, "classroom/plan.html", {
             "message": "Lesson created"
-        })
+        })'''
     else:
         #display form only if user is staff and get all lessons
         if user.type == "SU":
@@ -232,9 +232,8 @@ def homework_view(request):
             group = Class.objects.get(pk=group_id)
             homework = Homework.objects.create(subject=subject, content=content, deadline=deadline, group=group, teacher=user)
             homework.save()
-            return render(request, "classroom/homework.html", {
-                "message": "Homework created"
-            })
+            messages.success(request, "Homework created")
+            return redirect('homework')
         else:
             #get homeworks by ordered by deadline and request the,
             given_homeworks = user.given_homeworks.order_by('-deadline')
@@ -259,10 +258,8 @@ def homework_submission_view(request, homework_id):
             content = request.POST['content']
             submission = homework_submission.objects.create(homework=homework, student=user, content=content)
             submission.save()
-            return render(request, "classroom/submission.html", {
-                "homework": homework,
-                "message": "submited succesfully"
-            })
+            messages.success(request, "Submited succesfully")
+            return redirect('homework')
         else:
             #display submission form
             homework = Homework.objects.get(pk=homework_id)

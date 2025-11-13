@@ -22,7 +22,7 @@
                     <form action="" method="POST">
                         {%csrf_token%}
                         <div><input type="hidden" name="type" value="edit"></div> 
-                        <div><input type="number" min="0" max="100" name="grade" placeholder="Grade (0-100)"></div>
+                        <div><input required type="number" min="0" max="100" name="grade" placeholder="Grade (0-100)"></div>
                         <div><input type="text" name="feedback" placeholder="Write your feedback here (optional)"></div>
                         <div><input type="hidden" value="{{submission.grade.first.pk}}" name="submission.id"></div>
                         <div><input type="submit"></div>
@@ -33,15 +33,15 @@
             </div>
         {%else%}
         <div><button onclick="gradeView('{{submission.pk}}')">Grade</button>
-            <div class="grade_view" id="{{submission.pk}}" style="display: none;">{{submission.content}}
+            <div class="grade_view" id="{{submission.pk}}" style="display: none;">
                 <div class="submissions-form">
                     <div class="answer-box">Answer: {{submission.content}}</div>
                     <form action="" method="POST">
                         {%csrf_token%}
-                        <div><input type="hidden" name="type" value="edit"></div> 
-                        <div><input type="number" min="0" max="100" name="grade" placeholder="Grade (0-100)"></div>
+                        <div><input type="hidden" name="type" value="grade"></div> 
+                        <div><input required type="number" min="0" max="100" name="grade" placeholder="Grade (0-100)"></div>
                         <div><input type="text" name="feedback" placeholder="Write your feedback here (optional)"></div>
-                        <div><input type="hidden" value="{{submission.grade.first.pk}}" name="submission.id"></div>
+                        <div><input type="hidden" value="{{submission.pk}}" name="submission.id"></div>
                         <div><input type="submit"></div>
                     </form>
                     </div>

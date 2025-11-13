@@ -7,7 +7,13 @@
 {%endblock%}
 
 {%block body%}
-    {{message}}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
     {% if perrmision == True %}
     <button id="homework_button">Homeworks</button>
     <button id="add_button">Add Homework</button>
@@ -41,8 +47,8 @@
                         {%endfor%}
                     </select>
                 </div>
-                <div class="add-field"><textarea name="content" placeholder="Type content of homework."></textarea></div>
-                <div class="add-field"><input type="date" name="deadline"></div>
+                <div class="add-field"><textarea required name="content" placeholder="Type content of homework."></textarea></div>
+                <div class="add-field"><input required type="date" name="deadline"></div>
                 <div class="add-field">
                     <select name="group">
                         {% for clas in classes %}
