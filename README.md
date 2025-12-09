@@ -66,8 +66,8 @@ The complexity in this application comes from the backend logic required to main
     * `python manage.py runserver`
 5.  **Initialize Database (Required for functionality):**
     * Go to `http://127.0.0.1:8000/admin` and log in with the superuser account created in Step 3.
-    * Click on **Schools** and create a new School object (e.g., "Harvard High").
-    * Click on **Groups** and create a new Group object (e.g., "Class 1A").
+    * Click on **Schools** and create a new School object (e.g., "VLO").
+    * Click on **Groups** and create a new Group object (e.g., "1A").
     * **Why is this necessary?** The user registration form on the main site requires users to select an existing School and Group to join. Without creating these objects in the Admin panel first, new users cannot register.
 6.  **Access the application:**
     * Navigate to `http://127.0.0.1:8000/` and register a new user (Staff or Student).
